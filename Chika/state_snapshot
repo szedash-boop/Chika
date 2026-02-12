@@ -1,0 +1,93 @@
+<state_snapshot>
+    <overall_goal>
+        Build a React Native mobile forum app similar to LIHKG for the Philippines, named "Chika", focusing on anonymous discussion and extensive user customization.
+    </overall_goal>
+
+    <active_constraints>
+        - Use React Native with Expo for mobile development.
+        - Utilize Firebase for backend services (Authentication, Firestore Database, Cloud Storage).
+        - Implement a custom theming system for dynamic light/dark mode.
+        - App name must be "Chika" across all relevant files and UI.
+        - Development should prioritize core functionality, then polish and advanced features.
+        - Manual editing of `package-lock.json` is avoided; regeneration via `npm install` is the preferred method after `package.json` changes.
+        - User requires detailed step-by-step instructions due to limited/no coding experience.
+        - reCAPTCHA v3 has been chosen for CAPTCHA implementation.
+        - Autofill functionality has been explicitly disabled in authentication inputs (`autoComplete="off"`, `textContentType="none"`) as a workaround for an iOS autofill bug affecting subsequent input fields.
+    </active_constraints>
+
+    <key_knowledge>
+        - **Project Setup**: React Native Expo CLI initialized (`chika` new app name).
+        - **Firebase Integration**: Firebase project configured, `firebaseConfig.ts` created, Firestore (`threads`, `comments`, `users`, `votes`, `reports`), and Cloud Storage enabled. Email/Password and Anonymous authentication methods are enabled.
+        - **Authentication**: `expo-local-authentication` and `expo-secure-store` integrated for biometric login and secure credential storage. `recaptcha.config.ts` has been created to store the reCAPTCHA v3 site key.
+        - **Theming**: `contexts/ThemeContext.tsx` provides a global theme (`light`/`dark`) and color palette. Light mode primary color: `#4D0C0C`. Dark mode primary color: `#2F0410`.
+        - **Utilities**: `utils/timeUtils.ts` for relative time formatting; `utils/userUtils.ts` for `getCurrentUsername`, `isGuestUser`, `getBlockedUsernames`, `getFilteredKeywords`.
+        - **Third-Party APIs**: Giphy API is integrated for GIF search/selection, with the user's API key stored in `components/GifPicker.tsx`.
+        - **Core UI Components**: `app/(tabs)/index.tsx` (Home/Chika & Hot feeds), `app/thread.tsx` (Thread detail with nested comments), `app/create-post.tsx` (Post creation), `app/category.tsx` (Category feeds), `app/profile.tsx` (User's own profile), `app/user-profile.tsx` (Other user's profile), `app/search.tsx` (Dedicated search screen), `app/favorites.tsx` (User's favorited threads), `app/settings.tsx` (App settings).
+        - **Navigation**: `expo-router` for stack and tab navigation. Root layout (`app/_layout.tsx`) wraps the app with `ThemeProvider`, registers all main app routes.
+        - **Media Handling**: `expo-image-picker` is used for image selection (gallery/camera). `components/GifPicker.tsx` and `components/StickerPicker.tsx` (with custom upload) are implemented.
+        - **User Experience Enhancements**: Pull-to-refresh, infinite nested comments, in-app Terms/Privacy review, various modals (Hot Comments, Report, Thread Menu, Comment Menu).
+        - **Notifications**: Expo Push Notification SDKs (`expo-notifications`, `expo-device`, `expo-constants`) integrated. `pushNotifications.ts` configured, `sendNotification.ts` created for serverless push notifications.
+    </key_knowledge>
+
+    <artifact_trail>
+        - `app.json`: Updated `name`, `slug`, `scheme` from "Tsismis" to "Chika".
+        - `package.json`: Updated `name` from "Tsismis" to "Chika".
+        - `package-lock.json`: `name` updated to "chika". (verified no further "tsismis" occurrences)
+        - `firebaseConfig.ts`: Initialized Firebase services (`db`, `auth`, `storage`).
+        - `mockData.ts`: Created for initial frontend prototyping (not currently in use).
+        - `app/(tabs)/index.tsx`: Developed Home screen with Firebase data, themed, implemented Chika/Hot tabs, bottom navigation bar. Filters for blocked users and keywords. Updated "Tsismis" tab name to "Chika".
+        - `app/thread.tsx`: Developed Thread detail screen with Firebase data, nested comment rendering, media display, voting, bottom toolbar (Favorite, Gallery, Reply, Hot, Share, Jump to Bottom), and integrated Report/Edit/Delete menus. Implemented keyword filtering for thread content and comments. Updated share message to "Chika". Updated `handleEditThread` to navigate to `edit-post` screen. Integrated `EditCommentModal`.
+        - `app/create-post.tsx`: Developed Post creation screen with Firebase integration, media support, category selection, and "Chika" branding. Modified to accept category as parameter. Autofill disabled. Updated "Tsismis" category to "Chika".
+        - `app/category.tsx`: Developed Category-specific feed screen, displaying threads filtered by category. Filters for blocked users and keywords.
+        - `utils/secureStorage.ts`: Created for saving/getting user credentials for biometric login.
+        - `app/auth.tsx`: Created as welcome/auth screen, integrated Firebase email/password, terms acceptance UI, biometric login, and redirection to user setup. Autofill disabled. Updated logo text to "Chika". Reverted changes for tutorial feature.
+        - `app/_layout.tsx`: Configured `expo-router` stack navigation, wrapped the app with `ThemeProvider`, and registered all main app routes. Added `edit-post` route.
+        - `contexts/ThemeContext.tsx`: Created to manage and apply light/dark theme throughout the app, persisting selection in `AsyncStorage`.
+        - `pushNotifications.ts`: Configured Expo notification handler and `registerForPushNotificationsAsync`.
+        - `sendNotification.ts`: Created to facilitate sending push notifications via Expo API.
+        - `app/settings.tsx`: Developed Settings screen with functional Dark Mode toggle, links to legal pages, notification settings, blocked list, and keyword filter. Includes logout functionality.
+        - `app/legal/privacy-policy.tsx`: Drafted and created content for Privacy Policy. Updated all "Tsismis" mentions to "Chika".
+        - `app/legal/terms-of-service.tsx`: Drafted and created content for Terms of Service. Updated all "Tsismis" mentions to "Chika".
+        - `app/legal/terms-review.tsx`: Created to display legal documents with scroll-to-bottom acceptance mechanism. Updated all "Tsismis" mentions to "Chika`.
+        - `app/user-setup.tsx`: Developed User Setup screen for username and date of birth input after registration. Updated age requirement alert to "Chika". Reverted navigation for tutorial feature.
+        - `app/profile.tsx`: Redesigned Profile page to match LIHKG style, displaying user info and linking to various settings/lists. Updated "Tsismis+" to "Chika+".
+        - `app/blocked-list.tsx`: Created to manage and display blocked users, integrated with Firebase and blocking logic.
+        - `app/following-list.tsx`: Created to manage and display followed users, integrated with Firebase.
+        - `app/keyword-filter.tsx`: Created dedicated screen for adding/removing keyword filters.
+        - `app/search.tsx`: Created a dedicated search screen with comprehensive filtering and sorting options. Filters for blocked users and keywords. Updated "General" category to "Chika".
+        - `components/GifPicker.tsx`: Created a modal component for Giphy GIF search and selection.
+        - `components/StickerPicker.tsx`: Created a modal component for selecting emoji stickers and uploading custom image stickers.
+        - `components/EditCommentModal.tsx`: New modal component created for editing comments.
+        - `app/edit-post.tsx`: New screen created for editing posts.
+        - `utils/userUtils.ts`: Added `getBlockedUsernames`, `getCurrentUsername`, `isGuestUser`, and `getFilteredKeywords` functions.
+        - `recaptcha.config.ts`: Created to store the RECAPTCHA_SITE_KEY.
+        - `components/DrawerContent.tsx`: Updated "Tsismis" logo and quick access category to "Chika".
+    </artifact_trail>
+
+    <file_system_state>
+        - CWD: `/Users/sudarshanswathi/Desktop/lihkg-ph`
+        - Modified files: `app.json`, `package.json`, `package-lock.json`, `components/DrawerContent.tsx`, `app/thread.tsx`, `app/create-post.tsx`, `app/legal/terms-of-service.tsx`, `app/legal/privacy-policy.tsx`, `app/legal/terms-review.tsx`, `app/profile.tsx`, `app/(tabs)/index.tsx`, `app/auth.tsx`, `app/user-setup.tsx`, `utils/secureStorage.ts`, `app/_layout.tsx`, `contexts/ThemeContext.tsx`, `pushNotifications.ts`, `sendNotification.ts`, `app/settings.tsx`, `app/notification-settings.tsx`, `app/blocked-list.tsx`, `app/following-list.tsx`, `app/keyword-filter.tsx`, `app/search.tsx`, `components/GifPicker.tsx`, `components/StickerPicker.tsx`, `utils/userUtils.ts`, `components/EditCommentModal.tsx`, `app/edit-post.tsx`.
+        - Created files: `app/legal/privacy-policy.tsx`, `app/legal/terms-of-service.tsx`, `app/legal/terms-review.tsx`, `app/user-setup.tsx`, `utils/secureStorage.ts`, `contexts/ThemeContext.tsx`, `pushNotifications.ts`, `sendNotification.ts`, `app/notification-settings.tsx`, `app/blocked-list.tsx`, `app/following-list.tsx`, `app/keyword-filter.tsx`, `app/search.tsx`, `components/GifPicker.tsx`, `components/StickerPicker.tsx`, `recaptcha.config.ts`, `components/EditCommentModal.tsx`, `app/edit-post.tsx`.
+        - Deleted files: `components/TutorialModal.tsx`.
+    </file_system_state>
+
+    <recent_actions>
+        - Implemented keyword filtering across Home, Category, Search, and Favorites feeds, as well as thread content (`app/(tabs)/index.tsx`, `app/category.tsx`, `app/search.tsx`, `app/favorites.tsx`, `app/thread.tsx`).
+        - Updated `utils/userUtils.ts` with `getBlockedUsernames`, `getCurrentUsername`, `isGuestUser`, and `getFilteredKeywords` functions.
+        - Renamed the app from "Tsismis" to "Chika" in `app.json`, `package.json`, `package-lock.json`, `components/DrawerContent.tsx`, `app/thread.tsx`, `app/create-post.tsx`, `app/legal/terms-of-service.tsx`, `app/legal/privacy-policy.tsx`, `app/legal/terms-review.tsx`, `app/profile.tsx`, `app/(tabs)/index.tsx`, `app/auth.tsx`, `app/user-setup.tsx`, and `app/search.tsx`.
+        - Addressed an iOS bug affecting `TextInput` editing in `app/user-setup.tsx` by confirming reordering of fields to place DOB first, and completely disabling autofill for email/password inputs in `app/auth.tsx` as a workaround for an iOS autofill bug.
+        - Implemented "Edit Post/Comment" functionality, including the creation of `app/edit-post.tsx` and `components/EditCommentModal.tsx`, and integrated them into `app/thread.tsx` and `app/_layout.tsx`.
+        - Reverted tutorial feature implementation, including changes to `app/auth.tsx` and `app/user-setup.tsx`, and deletion of `components/TutorialModal.tsx`.
+    </recent_actions>
+
+    <task_state>
+        1. [COMPLETED] Rename "Tsismis" to "Chika" across all remaining files and UI elements.
+        2. [CANCELLED] Implement a tutorial feature when a user first signs up.
+        3. [COMPLETED] Implement actual "Edit Post/Comment" functionality.
+        4. [PENDING] Implement "Chika+" premium features.
+        5. [PENDING] Design and implement app icon and splash screen.
+        6. [PENDING] Implement other "Polish & UX" improvements from the TO-DO list (loading states, error handling, tutorial, empty states).
+        7. [PENDING] Re-evaluate the effectiveness of the iOS autofill workaround (disabling autofill) and potential impact on user experience.
+        8. [CANCELLED] Fix SyntaxError: Adjacent JSX elements must be wrapped in an enclosing tag in `app/auth.tsx`.
+    </task_state>
+</state_snapshot>
